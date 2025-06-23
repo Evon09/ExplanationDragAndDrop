@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Dashboard Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* For react-grid-layout */
+    .react-grid-layout {
+      position: relative;
+      transition: height 200ms ease;
+    }
+    .react-grid-item {
+      transition: all 200ms ease;
+      transition-property: left, top;
+    }
+    .react-grid-item.cssTransforms {
+      transition-property: transform;
+    }
+    .react-grid-item.resizing {
+      z-index: 1;
+      will-change: width, height;
+    }
+    .react-grid-item.react-draggable-dragging {
+      transition:none;
+      z-index: 3;
+      will-change: transform;
+    }
+    .react-grid-item.react-grid-placeholder {
+      background: #4A90E2; /* A distinct blue for placeholder */
+      opacity: 0.3;
+      transition-duration: 100ms;
+      z-index: 2;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+      border-radius: 0.375rem; /* Equivalent to rounded-md */
+    }
+
+    /* Base style for all resize handles: defines clickable area */
+    .react-grid-item > .react-resizable-handle {
+      position: absolute;
+      width: 20px; /* Increased clickable area */
+      height: 20px; /* Increased clickable area */
+      z-index: 20; /* Ensure handles are on top */
+    }
+
+    /* Visual indicator for handles - initially hidden */
+    .react-grid-item > .react-resizable-handle::after {
+      content: '';
+      position: absolute;
+      display: block;
+      background-color: rgba(0, 0, 0, 0.5); /* Darker, more visible */
+      border: 1px solid rgba(255, 255, 255, 0.8); /* Light border for contrast */
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      opacity: 0; /* Hidden by default */
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    /* Show visual indicator on parent item hover */
+    .react-grid-item:hover > .react-resizable-handle::after {
+      opacity: 1;
+    }
+
+    /* Corner Handles */
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-se { bottom: -5px; right: -5px; cursor: se-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-se::after { bottom: 5px; right: 5px; width: 10px; height: 10px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-sw::after { bottom: 5px; left: 5px; width: 10px; height: 10px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-ne { top: -5px; right: -5px; cursor: ne-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-ne::after { top: 5px; right: 5px; width: 10px; height: 10px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-nw { top: -5px; left: -5px; cursor: nw-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-nw::after { top: 5px; left: 5px; width: 10px; height: 10px; }
+
+    /* Side Handles */
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-s::after { bottom: 5px; left: 50%; transform: translateX(-50%); width: 12px; height: 6px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-n { top: -5px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-n::after { top: 5px; left: 50%; transform: translateX(-50%); width: 12px; height: 6px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-e { top: 50%; right: -5px; transform: translateY(-50%); cursor: e-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-e::after { top: 50%; right: 5px; transform: translateY(-50%); width: 6px; height: 12px; }
+
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-w { top: 50%; left: -5px; transform: translateY(-50%); cursor: w-resize; }
+    .react-grid-item > .react-resizable-handle.react-resizable-handle-w::after { top: 50%; left: 5px; transform: translateY(-50%); width: 6px; height: 12px; }
+
+    /* Ensure group-hover works for remove button visibility */
+    .group:hover .group-hover\\:opacity-100 {
+        opacity: 1;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-grid-layout": "https://esm.sh/react-grid-layout@^1.5.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
